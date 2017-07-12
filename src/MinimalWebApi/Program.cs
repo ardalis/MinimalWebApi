@@ -24,22 +24,23 @@ namespace MinimalWebApi
         {
             app.Run(async context =>
             {
+                context.Response.ContentType = context.Request.ContentType;
                 await context.Response.WriteAsync(
                     JsonConvert.SerializeObject(new
                     {
-                        StatusCode = (string)context.Response.StatusCode.ToString(),
-                        PathBase = (string)context.Request.PathBase.Value.Trim('/'),
-                        Path = (string)context.Request.Path.Value.Trim('/'),
-                        Method = (string)context.Request.Method,
-                        Scheme = (string)context.Request.Scheme,
-                        ContentType = (string)context.Request.ContentType,
+                        StatusCode = context.Response.StatusCode.ToString(),
+                        PathBase = context.Request.PathBase.Value.Trim('/'),
+                        Path = context.Request.Path.Value.Trim('/'),
+                        Method = context.Request.Method,
+                        Scheme = context.Request.Scheme,
+                        ContentType = context.Request.ContentType,
                         ContentLength = (long?)context.Request.ContentLength,
                         Content = new StreamReader(context.Request.Body).ReadToEnd(),
-                        QueryString = (string)context.Request.QueryString.ToString(),
+                        QueryString = context.Request.QueryString.ToString(),
                         Query = context.Request.Query
                             .ToDictionary(
-                                _ => _.Key,
-                                _ => _.Value,
+                                item => item.Key,
+                                item => item.Value,
                                 StringComparer.OrdinalIgnoreCase)
                     })
                 );
