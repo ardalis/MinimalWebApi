@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace MinimalWebApi
 {
@@ -33,6 +34,7 @@ namespace MinimalWebApi
                         Scheme = (string)context.Request.Scheme,
                         ContentType = (string)context.Request.ContentType,
                         ContentLength = (long?)context.Request.ContentLength,
+                        Content = new StreamReader(context.Request.Body).ReadToEnd(),
                         QueryString = (string)context.Request.QueryString.ToString(),
                         Query = context.Request.Query
                             .ToDictionary(
