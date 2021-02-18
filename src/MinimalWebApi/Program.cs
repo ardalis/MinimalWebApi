@@ -13,7 +13,7 @@ namespace MinimalWebApi
         public static void Main(string[] args)
         {
             var host = new WebHostBuilder()
-                .UseKestrel()
+                .UseKestrel(option => option.AllowSynchronousIO = true)
                 .Configure(app => app.Map("/echo", EchoHandler))
                 .Build();
 
